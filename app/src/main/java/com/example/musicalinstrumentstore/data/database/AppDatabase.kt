@@ -34,6 +34,7 @@ class AppDatabase(context: Context) :
             surname TEXT NOT NULL,
             phone TEXT,
             address TEXT,
+            password TEXT NOT NULL,
             role TEXT NOT NULL
             )     
             """.trimIndent()
@@ -58,7 +59,7 @@ class AppDatabase(context: Context) :
             iid INTEGER,
             purdate TEXT NOT NULL,
             quantity INTEGER NOT NULL,
-            total_cost REAL NOT NULL,
+            total_cost FLOAT NOT NULL,
             FOREIGN KEY (uid) REFERENCES user(iid),
             FOREIGN KEY(iid) REFERENCES instruments(iid),
             PRIMARY KEY (uid, iid, purdate)
@@ -73,13 +74,10 @@ class AppDatabase(context: Context) :
             """.trimIndent()
         )
 
-
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
     }
-
 
 }

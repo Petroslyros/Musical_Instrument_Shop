@@ -1,6 +1,8 @@
 package com.example.musicalinstrumentstore
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,18 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+
+        val registerBtn = findViewById<Button>(R.id.registerBtn)
+        registerBtn.setOnClickListener {
+            val regIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(regIntent)
+        }
+
+        val loginBtn = findViewById<Button>(R.id.loginBtn)
+        loginBtn.setOnClickListener {
+
         }
     }
 }
