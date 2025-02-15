@@ -16,7 +16,7 @@ class RegisterViewModel(private val userRepository: UserRepository) : ViewModel(
     private val _registerResult = MutableLiveData<Result<User>>()
     val registerResult: LiveData<Result<User>> = _registerResult
 
-    // Function to validate input fields before attempting registration
+    // validate input fields before attempting registration
     private fun isValidInput(user: User): Boolean {
         return user.name.isNotBlank() && user.email.isNotBlank() && user.passWord.isNotBlank()
                 && user.surname.isNotBlank()
@@ -34,7 +34,7 @@ class RegisterViewModel(private val userRepository: UserRepository) : ViewModel(
                 val result = userRepository.registerUser(user) // Call repository function
                 _registerResult.value = result // Post the result to LiveData
             } catch (e: Exception) {
-                _registerResult.value = Result.failure(e) // Handle errors
+                _registerResult.value = Result.failure(e)
             }
         }
     }

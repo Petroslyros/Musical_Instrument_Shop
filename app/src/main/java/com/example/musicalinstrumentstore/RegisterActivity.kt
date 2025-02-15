@@ -46,29 +46,10 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = RegisterViewModel(repository)
 
         registerBtn.setOnClickListener {
-            viewModel.register(createUser())
 
-
-            Log.d("UserCheck","email: ${createUser().email}")
         }
 
 
-
     }
-
-    private fun createUser(): User {
-        return User(
-            email = emailET.text.toString(),
-            passWord = passwordET.text.toString(),
-            name = nameET.text.toString(),
-            surname = surnameET.text.toString(),
-            phone = phoneET.text.toString(),
-            address = addressET.text.toString(),
-            id = 0,  // SQLite assigns an actual ID
-            role = "CUSTOMER"
-        )
-    }
-
-
 
 }

@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".MainActivity"
     android:background="#C0CA33">
 
     <TextView
+        android:padding="16dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:textSize="30sp"
@@ -19,37 +19,11 @@
         android:layout_height="wrap_content"
         android:text="Welcome to our Music Store" />
 
-    <TextView
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please Log in to your account so you can continue to our app "/>
-
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Log In"
-        android:backgroundTint="#8E24AA"
-        android:layout_marginTop="50dp"
-        />
-    <TextView
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You can register here if you don't have an account"/>
-
-    <Button
-        android:id="@+id/registerBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Register"
-        android:backgroundTint="#039BE5"
-        android:layout_marginTop="50dp"/>
+    
+    <FrameLayout
+        android:id="@+id/mainFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 
