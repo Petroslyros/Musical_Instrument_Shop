@@ -2,6 +2,7 @@ package com.example.musicalinstrumentstore.data.repository
 
 import android.content.ContentValues
 import com.example.musicalinstrumentstore.data.database.AppDatabase
+import com.example.musicalinstrumentstore.data.model.UserRole
 import com.example.musicalinstrumentstore.data.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -54,7 +55,7 @@ class UserRepository(private val database: AppDatabase) {
 
             cursor.use {
                 // Move cursor to the first result, if it exists, retrieve user data
-                if (it.moveToFirst()) {
+                if (cursor.moveToFirst()) {
                     User(
                         id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
                         email = it.getString(it.getColumnIndexOrThrow("email")),
@@ -63,7 +64,7 @@ class UserRepository(private val database: AppDatabase) {
                         phone = it.getString(it.getColumnIndexOrThrow("phone")),
                         address = it.getString(it.getColumnIndexOrThrow("address")),
                         passWord = it.getString(it.getColumnIndexOrThrow("password")),
-                        role = it.getString(it.getColumnIndexOrThrow("role")),
+                        role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
                     )
                 } else null // If no matching user is found, return null
             }
@@ -83,7 +84,7 @@ class UserRepository(private val database: AppDatabase) {
             )
 
             cursor.use {
-                while(it.moveToNext()){
+                while(cursor.moveToNext()){
                     users.add(User(
                         id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
                         email = it.getString(it.getColumnIndexOrThrow("email")),
@@ -92,7 +93,7 @@ class UserRepository(private val database: AppDatabase) {
                         phone = it.getString(it.getColumnIndexOrThrow("phone")),
                         address = it.getString(it.getColumnIndexOrThrow("address")),
                         passWord = it.getString(it.getColumnIndexOrThrow("password")),
-                        role = it.getString(it.getColumnIndexOrThrow("role")),
+                        role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
                         ))
                 }
             }

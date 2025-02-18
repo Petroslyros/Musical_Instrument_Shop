@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    
-    private val _loginResult = MutableLiveData<Result<User>>()
+    //LiveData == lifecycle aware (follows observer pattern, a container that follows data change)
+    private val _loginResult = MutableLiveData<Result<User>>() //read only(cannot be changed outside viewmodel)
     val loginResult: LiveData<Result<User>> = _loginResult
 
     fun login(email: String, password: String) {

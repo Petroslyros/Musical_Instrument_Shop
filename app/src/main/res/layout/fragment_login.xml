@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".MainActivity"
-    android:background="#C0CA33">
+    tools:context=".ui.auth.fragments.LoginFragment"
+    android:background="@android:color/transparent">
 
 
     <TextView
@@ -24,6 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:inputType="textWebEmailAddress"
         android:hint="Email "/>
     <EditText
         android:id="@+id/passwordET"
@@ -31,9 +34,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:inputType="textPassword"
         android:hint="Password "/>
 
     <Button
+        android:id="@+id/loginBtn"
         android:backgroundTint="#8E24AA"
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
@@ -43,11 +50,12 @@
     <TextView
         android:id="@+id/clickMeText"
         android:layout_marginTop="10dp"
-        android:textColor="#1E88E5"
+        android:textColor="#FB8C00"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Not yet registerd? Click here"
+        android:text="Not registered yet? Click here to create an account"
+        android:textSize="15sp"
         />
 
 </LinearLayout>

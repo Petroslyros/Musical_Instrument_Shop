@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 // ViewModel to handle registration logic in the UI layer
 class RegisterViewModel(private val userRepository: UserRepository) : ViewModel() {
 
+    //LiveData == lifecycle aware (follows observer pattern, a container that follows data change)
     private val _registerResult = MutableLiveData<Result<User>>()
     val registerResult: LiveData<Result<User>> = _registerResult
 

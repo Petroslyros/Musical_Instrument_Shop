@@ -10,7 +10,7 @@ data class User(
     val phone: String,
     val passWord : String,
     val address: String,
-    val role: String
+    val role: UserRole
 )
 
 
