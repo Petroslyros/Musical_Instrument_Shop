@@ -29,7 +29,7 @@ class RegisterViewModel(private val userRepository: UserRepository) : ViewModel(
             return
         }
 
-        // Launch a coroutine in the ViewModel's scope to handle registration asynchronously
+        // Launch a coroutine in the ViewModel scope to handle registration asynchronously
         viewModelScope.launch {
             try {
                 val result = userRepository.registerUser(user) // Call repository function

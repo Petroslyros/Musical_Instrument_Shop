@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 class UserRepository(private val database: AppDatabase) {
 
     suspend fun registerUser(user: User): Result<User> {
-        // Dispatchers.IO is used for operations that involve network calls, ensuring they don't block the main thread
+        // Dispatchers.IO  used for operations that involve network calls, ensuring they don't block the main thread
         // withContext switches execution to the specified dispatcher and runs the code inside it sequentially (not in parallel)
         // as we don't know when this function is going to get called
         return withContext(Dispatchers.IO) {
@@ -28,11 +28,10 @@ class UserRepository(private val database: AppDatabase) {
                 put("role", "CUSTOMER")
             }
 
-            // Insert the user into the "users" table, returns the new row ID or -1 if the insertion failed
+            // Insert the user into the users table, returns the new row ID or -1 if the insertion failed
             val id = db.insert("users", null, values)
 
             if (id != -1L) { // If insertion was successful, return success with user data
-
                 Result.success(user)
             } else { // If insertion failed, return failure with an exception
                 Result.failure(Exception("Registration failed, user already exists"))

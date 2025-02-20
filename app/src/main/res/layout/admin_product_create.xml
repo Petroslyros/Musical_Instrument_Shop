@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#F5F2F2"
-            android:text="Title"
+            android:hint="title"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -29,6 +29,7 @@
             android:layout_weight="1"
             android:background="#F5F2F2"
             android:textSize="20sp"
+            android:hint="brand"
             android:textStyle="bold" />
 
         <EditText
@@ -38,6 +39,7 @@
             android:layout_weight="1"
             android:background="#F5F2F2"
             android:textSize="20sp"
+            android:hint="model"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -48,6 +50,7 @@
         android:layout_height="100dp"
         android:background="@color/white"
         android:padding="8dp"
+        android:hint="description"
         android:textSize="18sp" />
 
     <EditText
@@ -55,7 +58,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:hint="cost"
         android:textStyle="bold" />
+    <EditText
+        android:id="@+id/stockET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:hint="stock"
+        android:textStyle="bold" />
+
 
     <LinearLayout
         android:layout_width="match_parent"

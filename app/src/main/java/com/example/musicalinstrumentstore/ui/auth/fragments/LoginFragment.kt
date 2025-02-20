@@ -44,9 +44,14 @@ class LoginFragment : Fragment() {
         val database = AppDatabase(requireContext())
         val userRepository = UserRepository(database)
         val loginViewModel = LoginViewModel(userRepository)
+
+        //attaches an observer that listens for changes in loginResult, Since login happens asynchronously ,
+        // the UI updates automatically when the result is available.
+        //It also prevents UI from freezing while waiting for a response
         loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { user ->
                 if (user.role == UserRole.CUSTOMER){
+                    // sharedpreference allows the app to remember the logged-in user even after closing the app
                     val sharedPref = activity?.getSharedPreferences("cookies",Context.MODE_PRIVATE)
                     val editor = sharedPref?.edit()
                     editor?.putString("email", user.email)
@@ -70,8 +75,6 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }.onFailure { exception ->
-
-
                 Toast.makeText(
                     requireContext(),
                     exception.message ?: "Something went wrong",
