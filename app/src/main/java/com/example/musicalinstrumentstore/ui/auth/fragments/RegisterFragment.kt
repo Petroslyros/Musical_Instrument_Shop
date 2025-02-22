@@ -1,7 +1,6 @@
 package com.example.musicalinstrumentstore.ui.auth.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.User
 import com.example.musicalinstrumentstore.data.model.UserRole
 import com.example.musicalinstrumentstore.data.repository.UserRepository
-import com.example.musicalinstrumentstore.ui.auth.viewmodel.LoginViewModel
 import com.example.musicalinstrumentstore.ui.auth.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch
 
@@ -59,7 +57,7 @@ class RegisterFragment : Fragment() {
 
         registerViewModel.registerResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(requireContext(),"User Registered Successful",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),"User Registered Successfully",Toast.LENGTH_SHORT).show()
                 backToLogin()
             }.onFailure {
                 Toast.makeText(requireContext(),"Registration failed ",Toast.LENGTH_SHORT).show()
@@ -77,7 +75,7 @@ class RegisterFragment : Fragment() {
     private fun register(){
         val user = createUser()
 
-        if (user.email.isBlank() || user.passWord.isBlank() || user.name.isBlank() || user.surname.isBlank()) {
+        if (user.email.isBlank() || user.password.isBlank() || user.name.isBlank() || user.surname.isBlank()) {
             Toast.makeText(requireContext(), "All fields except phone and address are required", Toast.LENGTH_SHORT).show()
             return
         }
@@ -89,7 +87,7 @@ class RegisterFragment : Fragment() {
     private fun createUser(): User {
         return User(
             email = emailET.text.toString(),
-            passWord = passwordET.text.toString(),
+            password = passwordET.text.toString(),
             name = nameET.text.toString(),
             surname = surnameET.text.toString(),
             phone = phoneET.text.toString(),

@@ -19,7 +19,7 @@ class RegisterViewModel(private val userRepository: UserRepository) : ViewModel(
 
     // validate input fields before attempting registration
     private fun isValidInput(user: User): Boolean {
-        return user.name.isNotBlank() && user.email.isNotBlank() && user.passWord.isNotBlank()
+        return user.name.isNotBlank() && user.email.isNotBlank() && user.password.isNotBlank()
                 && user.surname.isNotBlank()
     }
 

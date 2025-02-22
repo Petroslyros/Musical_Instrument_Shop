@@ -1,4 +1,4 @@
-package com.example.musicalinstrumentstore.ui.auth.adapter
+package com.example.musicalinstrumentstore.ui.adapter
 
 import android.content.Context
 import android.view.View

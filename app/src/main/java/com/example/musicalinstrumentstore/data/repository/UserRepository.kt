@@ -24,7 +24,7 @@ class UserRepository(private val database: AppDatabase) {
                 put("surname", user.surname)
                 put("phone", user.phone)
                 put("address", user.address)
-                put("password", user.passWord) //HASH PASSWORDS LATER
+                put("password", user.password) //HASH PASSWORDS LATER
                 put("role", "CUSTOMER")
             }
 
@@ -62,7 +62,7 @@ class UserRepository(private val database: AppDatabase) {
                         surname = it.getString(it.getColumnIndexOrThrow("surname")),
                         phone = it.getString(it.getColumnIndexOrThrow("phone")),
                         address = it.getString(it.getColumnIndexOrThrow("address")),
-                        passWord = it.getString(it.getColumnIndexOrThrow("password")),
+                        password = it.getString(it.getColumnIndexOrThrow("password")),
                         role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
                     )
                 } else null // If no matching user is found, return null
@@ -72,7 +72,7 @@ class UserRepository(private val database: AppDatabase) {
 
     suspend fun fetchAllUsers(): ArrayList<User> {
         val users = ArrayList<User>()
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             val db = database.readableDatabase
             val cursor = db.query(
                 "users",
@@ -83,20 +83,55 @@ class UserRepository(private val database: AppDatabase) {
             )
 
             cursor.use {
-                while(cursor.moveToNext()){
-                    users.add(User(
+                while (cursor.moveToNext()) {
+                    users.add(
+                        User(
+                            id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
+                            email = it.getString(it.getColumnIndexOrThrow("email")),
+                            name = it.getString(it.getColumnIndexOrThrow("name")),
+                            surname = it.getString(it.getColumnIndexOrThrow("surname")),
+                            phone = it.getString(it.getColumnIndexOrThrow("phone")),
+                            address = it.getString(it.getColumnIndexOrThrow("address")),
+                            password = it.getString(it.getColumnIndexOrThrow("password")),
+                            role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
+                        )
+                    )
+                }
+            }
+            users
+        }
+
+    }
+
+    suspend fun fetchUser(email: String): User? {
+
+        return withContext(Dispatchers.IO) {
+            val db = database.readableDatabase
+            val cursor = db.query(
+                "users",
+                null,
+                "email = ?",
+                arrayOf(email),
+                null, null, null
+            )
+
+            cursor.use {
+                if (it.moveToFirst()) {
+                    User(
                         id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
                         email = it.getString(it.getColumnIndexOrThrow("email")),
                         name = it.getString(it.getColumnIndexOrThrow("name")),
                         surname = it.getString(it.getColumnIndexOrThrow("surname")),
                         phone = it.getString(it.getColumnIndexOrThrow("phone")),
                         address = it.getString(it.getColumnIndexOrThrow("address")),
-                        passWord = it.getString(it.getColumnIndexOrThrow("password")),
+                        password = it.getString(it.getColumnIndexOrThrow("password")),
                         role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
-                        ))
+                    )
                 }
+                else null
+
             }
-            users
+
         }
 
     }

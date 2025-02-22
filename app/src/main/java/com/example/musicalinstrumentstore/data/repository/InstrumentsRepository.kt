@@ -56,7 +56,7 @@ class InstrumentsRepository(val database: AppDatabase) {
                             model = it.getString(it.getColumnIndexOrThrow("model")),
                             itype = it.getString(it.getColumnIndexOrThrow("itype")),
                             description = it.getString(it.getColumnIndexOrThrow("description")),
-                            cost = it.getFloat(it.getColumnIndexOrThrow("type")),
+                            cost = it.getFloat(it.getColumnIndexOrThrow("cost")),
                             stock = it.getInt(it.getColumnIndexOrThrow("stock"))
                         )
                     )

@@ -8,7 +8,7 @@ data class User(
     val name: String,
     var surname: String,
     val phone: String,
-    val passWord : String,
+    val password : String,
     val address: String,
     val role: UserRole
 )
