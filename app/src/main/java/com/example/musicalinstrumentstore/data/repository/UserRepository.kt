@@ -31,9 +31,9 @@ class UserRepository(private val database: AppDatabase) {
             // Insert the user into the users table, returns the new row ID or -1 if the insertion failed
             val id = db.insert("users", null, values)
 
-            if (id != -1L) { // If insertion was successful, return success with user data
+            if (id != -1L) {
                 Result.success(user)
-            } else { // If insertion failed, return failure with an exception
+            } else {
                 Result.failure(Exception("Registration failed, user already exists"))
             }
         }

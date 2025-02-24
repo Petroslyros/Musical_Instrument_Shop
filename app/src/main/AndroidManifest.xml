@@ -13,6 +13,18 @@
         android:theme="@style/Theme.MusicalInstrumentStore"
         tools:targetApi="31">
         <activity
+            android:name=".ui.adapter.AdminUsersAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".CheckOutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminEditProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminEditUsersActivity"
+            android:exported="false" />
+        <activity
             android:name=".EmployeeActivity"
             android:exported="false" />
         <activity

@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/titleET"
+        <TextView
+            android:id="@+id/titleTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -21,8 +21,8 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/brandET"
+        <TextView
+            android:id="@+id/brandTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,8 +31,8 @@
             android:hint="brand"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/modelET"
+        <TextView
+            android:id="@+id/modelTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,8 +43,8 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/descriptionET"
+    <TextView
+        android:id="@+id/descriptionTV"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
@@ -52,15 +52,15 @@
         android:hint="description"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/costET"
+    <TextView
+        android:id="@+id/costTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:hint="cost"
         android:textStyle="bold" />
-    <EditText
-        android:id="@+id/stockET"
+    <TextView
+        android:id="@+id/stockTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -75,11 +75,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addItemBtn"
+            android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E91E63"
-            android:text="Add to list" />
+            android:backgroundTint="#7B1FA2"
+            android:text="Edit" />
+        <Button
+            android:backgroundTint="#C2185B"
+            android:id="@+id/deleteBtn"
+            android:text="Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/listbackground"
     android:orientation="vertical"
-    tools:context=".CustomerActivity">
+    tools:context=".AdminEditUsersActivity">
 
     <TextView
         android:id="@+id/titleTV"
@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
 
@@ -29,28 +29,21 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Products "
+            android:text="Users "
             android:textSize="30sp" />
-
 
         <EditText
             android:id="@+id/searchET"
             android:layout_width="187dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="0dp"
-            android:hint="Search instrument" />
-        <Button
-            android:id="@+id/checkOutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check Out"
-            android:backgroundTint="#FB8C00"/>
+            android:layout_marginLeft="50dp"
+            android:hint="Search user" />
 
     </LinearLayout>
 
 
     <ListView
-        android:id="@+id/instrumentsLV"
+        android:id="@+id/usersLV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

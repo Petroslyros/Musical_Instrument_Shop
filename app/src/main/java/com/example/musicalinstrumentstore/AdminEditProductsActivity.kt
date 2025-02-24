@@ -28,7 +28,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class EmployeeActivity : AppCompatActivity() {
+class AdminEditProductsActivity : AppCompatActivity() {
+
     private lateinit var searchET : EditText
     private lateinit var instrumentsLV: ListView
     private lateinit var repository: InstrumentsRepository
@@ -66,7 +67,7 @@ class EmployeeActivity : AppCompatActivity() {
                 titleTV.text = "Welcome $userName"
             }
             result.onFailure {
-                Toast.makeText(this,"Something went wrong with the user name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Something went wrong with the user name",Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -92,7 +93,7 @@ class EmployeeActivity : AppCompatActivity() {
             }
             instrumentsList.clear()
             instrumentsList.addAll(instruments)
-            adminInstrumentsAdapter.notifyDataSetChanged()
+             adminInstrumentsAdapter.notifyDataSetChanged()
             instrumentsLV.adapter = adminInstrumentsAdapter
         }
     }
@@ -131,7 +132,7 @@ class EmployeeActivity : AppCompatActivity() {
                     fetchAndPopulate()
                     popupWindow.dismiss()
                 } catch (e: IllegalArgumentException){
-                    Toast.makeText(this@EmployeeActivity,"Something went wrong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AdminEditProductsActivity,"Something went wrong",Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -148,4 +149,8 @@ class EmployeeActivity : AppCompatActivity() {
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
     }
+
+
+
+
 }

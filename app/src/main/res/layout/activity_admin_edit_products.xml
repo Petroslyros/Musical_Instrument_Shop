@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
 
@@ -32,19 +32,20 @@
             android:text="Products "
             android:textSize="30sp" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/baseline_add_24" />
 
         <EditText
             android:id="@+id/searchET"
             android:layout_width="187dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="10dp"
             android:hint="Search instrument" />
-        <Button
-            android:id="@+id/checkOutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check Out"
-            android:backgroundTint="#FB8C00"/>
 
     </LinearLayout>
 

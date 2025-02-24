@@ -3,8 +3,6 @@ package com.example.musicalinstrumentstore.data.repository
 import android.content.ContentValues
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
-import com.example.musicalinstrumentstore.data.model.User
-import com.example.musicalinstrumentstore.data.model.UserRole
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
