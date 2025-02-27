@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/listbackground"
     android:orientation="vertical"
-    tools:context=".CustomerActivity">
+    tools:context=".ui.customer.CustomerActivity">
 
     <TextView
         android:id="@+id/titleTV"

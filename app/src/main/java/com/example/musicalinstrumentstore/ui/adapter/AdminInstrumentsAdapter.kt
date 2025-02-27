@@ -15,10 +15,13 @@ import androidx.core.content.ContextCompat
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
+import com.example.musicalinstrumentstore.data.model.UserRole
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
+import com.example.musicalinstrumentstore.data.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AdminInstrumentsAdapter(
     val context: Context,
@@ -62,7 +65,7 @@ class AdminInstrumentsAdapter(
         }
 
         deleteBtn.setOnClickListener {
-
+            delete(position)
         }
 
 
@@ -109,8 +112,35 @@ class AdminInstrumentsAdapter(
                 stock = stockET.text.toString().toInt()
             )
 
+            CoroutineScope(Dispatchers.IO).launch {
+                val db = AppDatabase(context)
+                val instrumentRepo = InstrumentsRepository(db)
+                withContext(Dispatchers.Main){
+                    instrumentRepo.updateInstrument(instruments[position].id,updatedInstrument)
+                    instruments[position] = updatedInstrument
+                    notifyDataSetChanged()
+                    popupWindow.dismiss()
+                }
+
+            }
+
         }
 
 
     }
+
+    private fun delete(position: Int){
+        CoroutineScope(Dispatchers.IO).launch {
+            val instrumentToDelete = instruments[position]
+            val db = AppDatabase(context)
+            val instrumentsRepo = InstrumentsRepository(db)
+
+                withContext(Dispatchers.Main){
+                    instrumentsRepo.deleteInstrument(instrumentToDelete.id)
+                    instruments.removeAt(position)
+                    notifyDataSetChanged()
+                }
+            }
+        }
+
 }

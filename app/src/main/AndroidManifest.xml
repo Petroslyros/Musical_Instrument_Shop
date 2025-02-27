@@ -16,7 +16,7 @@
             android:name=".ui.adapter.AdminUsersAdapter"
             android:exported="false" />
         <activity
-            android:name=".CheckOutActivity"
+            android:name=".ui.customer.CheckOutActivity"
             android:exported="false" />
         <activity
             android:name=".AdminEditProductsActivity"
@@ -31,7 +31,7 @@
             android:name=".AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".CustomerActivity"
+            android:name=".ui.customer.CustomerActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

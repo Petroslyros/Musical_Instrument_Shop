@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.musicalinstrumentstore.ui.customer.CustomerActivity
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.model.Instrument
 
@@ -42,11 +43,13 @@ class CustomerInstrumentsAdapter(val context: Context, private val instruments: 
         brandET.text = instruments[position].brand
         modelET.text = instruments[position].model
         descriptionET.text = instruments[position].description
-        costET.text = "Cost: ${instruments[position].cost.toString()}"
-        stockET.text = "Stock: ${instruments[position].stock.toString()}"
+        costET.text = "Cost: ${instruments[position].cost}"
+        stockET.text = "Stock: ${instruments[position].stock}"
 
         addToCartBtn.setOnClickListener {
+            CustomerActivity.cardList.add(instruments[position])
             Toast.makeText(context,"Item has been added to cart",Toast.LENGTH_LONG).show()
+            notifyDataSetChanged()
         }
 
 

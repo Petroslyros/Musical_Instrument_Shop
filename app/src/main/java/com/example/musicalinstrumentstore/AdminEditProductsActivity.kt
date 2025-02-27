@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
@@ -30,11 +31,11 @@ import kotlinx.coroutines.withContext
 
 class AdminEditProductsActivity : AppCompatActivity() {
 
-    private lateinit var searchET : EditText
+    private lateinit var searchET: EditText
     private lateinit var instrumentsLV: ListView
     private lateinit var repository: InstrumentsRepository
     private lateinit var adminInstrumentsAdapter: AdminInstrumentsAdapter
-    private  var instrumentsList = ArrayList<Instrument>()
+    private var instrumentsList = ArrayList<Instrument>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,25 +50,26 @@ class AdminEditProductsActivity : AppCompatActivity() {
 
         val database = AppDatabase(this)
         repository = InstrumentsRepository(database)
-        adminInstrumentsAdapter = AdminInstrumentsAdapter(this,instrumentsList)
+        adminInstrumentsAdapter = AdminInstrumentsAdapter(this, instrumentsList)
         val userRepo = UserRepository(database)
 
 
         //observe the user name and change it dynamically
         val sharedPref = getSharedPreferences("cookies", Context.MODE_PRIVATE)
-        val userMail = sharedPref.getString("email","")?:""
+        val userMail = sharedPref.getString("email", "") ?: ""
         val productsViewModel = ProductsViewModel(userRepo)
 
         val titleTV = findViewById<TextView>(R.id.titleTV)
 
         productsViewModel.getUserName(userMail)
 
-        productsViewModel.userName.observe(this){ result ->
+        productsViewModel.userName.observe(this) { result ->
             result.onSuccess { userName ->
                 titleTV.text = "Welcome $userName"
             }
             result.onFailure {
-                Toast.makeText(this,"Something went wrong with the user name",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }
@@ -80,25 +82,40 @@ class AdminEditProductsActivity : AppCompatActivity() {
         fetchAndPopulate()
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener{
+        fab.setOnClickListener {
             showAddPopUp()
         }
 
+//        searchET.addTextChangedListener {
+//            val query = searchET.text.toString()
+//            lifecycleScope.launch {
+//                if (query.isNotBlank()) {
+//                    userRepo.searchUser(query) { results ->
+//                        instrumentsList.clear()
+//                        instrumentsList.addAll(results)
+//                        adminInstrumentsAdapter.notifyDataSetChanged()
+//                    }
+//                }
+//            }
+//
+//        }
+
+
     }
 
-    private fun fetchAndPopulate(){
+    private fun fetchAndPopulate() {
         lifecycleScope.launch {
-            val instruments = withContext(Dispatchers.IO){
+            val instruments = withContext(Dispatchers.IO) {
                 repository.fetchAllInstruments()
             }
             instrumentsList.clear()
             instrumentsList.addAll(instruments)
-             adminInstrumentsAdapter.notifyDataSetChanged()
+            adminInstrumentsAdapter.notifyDataSetChanged()
             instrumentsLV.adapter = adminInstrumentsAdapter
         }
     }
 
-    private fun showAddPopUp(){
+    private fun showAddPopUp() {
         val inflater = LayoutInflater.from(this)
         val popupView = inflater.inflate(R.layout.admin_product_create, null)
         val popupWindow = PopupWindow(
@@ -125,18 +142,23 @@ class AdminEditProductsActivity : AppCompatActivity() {
             val stock = stockET.text.toString().toInt()
 
             lifecycleScope.launch {
-                val instrument = Instrument(id = 0, title = title,brand = brand,model = model,
-                    description = desc, cost = cost, stock = stock, itype = "String_Instrument" )
+                val instrument = Instrument(
+                    id = 0, title = title, brand = brand, model = model,
+                    description = desc, cost = cost, stock = stock, itype = "String_Instrument"
+                )
                 try {
                     repository.addInstrument(instrument)
                     fetchAndPopulate()
                     popupWindow.dismiss()
-                } catch (e: IllegalArgumentException){
-                    Toast.makeText(this@AdminEditProductsActivity,"Something went wrong",Toast.LENGTH_SHORT).show()
+                } catch (e: IllegalArgumentException) {
+                    Toast.makeText(
+                        this@AdminEditProductsActivity,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-
 
 
         popupWindow.setBackgroundDrawable(
@@ -149,8 +171,6 @@ class AdminEditProductsActivity : AppCompatActivity() {
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
     }
-
-
 
 
 }

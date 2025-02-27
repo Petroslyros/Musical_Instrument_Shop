@@ -39,6 +39,18 @@ class UserRepository(private val database: AppDatabase) {
         }
     }
 
+    suspend fun updateUserRole(id: Int, newRole: UserRole): Int {
+        return withContext(Dispatchers.IO) {
+            val db = database.writableDatabase
+            val values = ContentValues().apply {
+                put("role", newRole.name)
+
+            }
+            db.update("users", values, "id = ?", arrayOf(id.toString()))
+        }
+    }
+
+
     suspend fun loginUser(email: String, password: String): User? {
         return withContext(Dispatchers.IO) {
             val db = database.writableDatabase
@@ -127,13 +139,62 @@ class UserRepository(private val database: AppDatabase) {
                         password = it.getString(it.getColumnIndexOrThrow("password")),
                         role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
                     )
-                }
-                else null
+                } else null
 
             }
 
         }
 
+    }
+
+    suspend fun searchUser(query: String): User? {
+
+        return withContext(Dispatchers.IO) {
+            val db = database.readableDatabase
+            val cursor = db.query(
+                "users",
+                null, "email = ? and name = ?",
+                arrayOf(query.toString()), null, null, null
+            )
+            cursor.use {
+                if (it.moveToFirst()) {
+                    User(
+                        id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
+                        email = it.getString(it.getColumnIndexOrThrow("email")),
+                        name = it.getString(it.getColumnIndexOrThrow("name")),
+                        surname = it.getString(it.getColumnIndexOrThrow("surname")),
+                        phone = it.getString(it.getColumnIndexOrThrow("phone")),
+                        address = it.getString(it.getColumnIndexOrThrow("address")),
+                        password = it.getString(it.getColumnIndexOrThrow("password")),
+                        role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
+                    )
+                } else null
+
+            }
+        }
+    }
+
+
+    suspend fun deleteUser(id: Int): Int {
+        return withContext(Dispatchers.IO) {
+            val db = database.writableDatabase
+            db.delete(
+                "users",
+                "id = ?",
+                arrayOf(id.toString())
+            )
+        }
+    }
+
+    suspend fun updateUserRoletoAdmin(email: String, newRole: UserRole): Boolean {
+        return withContext(Dispatchers.IO) {
+            val db = database.writableDatabase
+            val values = ContentValues().apply {
+                put("role", newRole.name) // Use .name to store the Enum as a String
+            }
+            val rowsAffected = db.update("users", values, "email = ?", arrayOf(email))
+            rowsAffected > 0  // Return true if update was successful
+        }
     }
 
 

@@ -32,6 +32,26 @@ class InstrumentsRepository(val database: AppDatabase) {
             }
         }
     }
+    suspend fun updateInstrument(id: Int, instrument: Instrument): Int {
+        return withContext(Dispatchers.IO) {
+            val db = database.writableDatabase
+
+            val values = ContentValues().apply {
+                put("title", instrument.title)
+                put("brand", instrument.brand)
+                put("model", instrument.model)
+                put("itype", instrument.itype)
+                put("description", instrument.description)
+                put("cost", instrument.cost)
+                put("stock", instrument.stock)
+            }
+            db.update("instruments", values, "id = ?", arrayOf(id.toString()))
+        }
+    }
+
+
+
+
     suspend fun fetchAllInstruments(): ArrayList<Instrument> {
         val instruments = ArrayList<Instrument>()
         return withContext(Dispatchers.IO){
@@ -63,6 +83,16 @@ class InstrumentsRepository(val database: AppDatabase) {
             instruments
         }
 
+    }
+    suspend fun deleteInstrument(id: Int): Int {
+        return withContext(Dispatchers.IO) {
+            val db = database.writableDatabase
+            db.delete(
+                "instruments",
+                "id = ?",
+                arrayOf(id.toString())
+            )
+        }
     }
 
 

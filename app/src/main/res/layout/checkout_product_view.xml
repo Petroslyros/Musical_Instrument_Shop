@@ -55,12 +55,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold" />
-    <TextView
-        android:id="@+id/stockTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,11 +64,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addToCartBtn"
+            android:id="@+id/removeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#E91E63"
-            android:text="Add to Cart" />
+            android:text="Remove" />
 
     </LinearLayout>
 

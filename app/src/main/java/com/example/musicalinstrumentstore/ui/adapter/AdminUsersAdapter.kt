@@ -9,8 +9,14 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.musicalinstrumentstore.R
+import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.User
 import com.example.musicalinstrumentstore.data.model.UserRole
+import com.example.musicalinstrumentstore.data.repository.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AdminUsersAdapter(val context: Context, private val users: ArrayList<User>) :
     BaseAdapter() {
@@ -44,25 +50,54 @@ class AdminUsersAdapter(val context: Context, private val users: ArrayList<User>
         addressTV.text = "address: ${users[position].address}"
         phoneTV.text = "phone: ${users[position].phone}"
 
-        deleteUserBtn.setOnClickListener {
-            if(users[position].role == UserRole.ADMIN){
-                Toast.makeText(context,"User cannot be deleted",Toast.LENGTH_SHORT).show()
-            }
-            else {
 
-            }
+        deleteUserBtn.setOnClickListener {
+            delete(position)
         }
 
         makeEmployee.setOnClickListener {
-            if(users[position].role == UserRole.ADMIN || users[position].role == UserRole.EMPLOYEE){
-                Toast.makeText(context,"User cannot be changed to employee as the user already has admin rights",Toast.LENGTH_SHORT).show()
-            }
-            else {
-
-            }
+            updateUserRole(position)
         }
 
 
         return view
     }
+
+    private fun delete(position: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val userToDelete = users[position]
+            val db = AppDatabase(context)
+            val userRepo = UserRepository(db)
+            if (users[position].role == UserRole.ADMIN) {
+                Toast.makeText(context, "Admin user cannot be deleted", Toast.LENGTH_SHORT).show()
+            } else {
+                withContext(Dispatchers.Main) {
+                    userRepo.deleteUser(userToDelete.id)
+                    users.removeAt(position)
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+    private fun updateUserRole(position: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase(context)
+            val userRepo = UserRepository(db)
+            withContext(Dispatchers.Main){
+            if (users[position].role == UserRole.ADMIN || users[position].role == UserRole.EMPLOYEE) {
+                Toast.makeText(
+                    context,
+                    "User cannot be changed to employee as the user already has admin rights",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                    userRepo.updateUserRole(users[position].id,UserRole.EMPLOYEE)
+                    notifyDataSetChanged()
+                    Toast.makeText(context,"User has been changed to Employee",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 }

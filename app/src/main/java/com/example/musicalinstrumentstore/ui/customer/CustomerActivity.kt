@@ -1,4 +1,4 @@
-package com.example.musicalinstrumentstore
+package com.example.musicalinstrumentstore.ui.customer
 
 import android.content.Context
 import android.content.Intent
@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.data.repository.UserRepository
-import com.example.musicalinstrumentstore.ui.adapter.AdminInstrumentsAdapter
 import com.example.musicalinstrumentstore.ui.adapter.CustomerInstrumentsAdapter
 import com.example.musicalinstrumentstore.ui.customer.viewModel.ProductsViewModel
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +32,11 @@ class CustomerActivity : AppCompatActivity() {
     private lateinit var customerInstrumentAdapter: CustomerInstrumentsAdapter
     private var instrumentsList = ArrayList<Instrument>()
     private lateinit var checkOutBtn: Button
+
+    companion object{
+        var cardList = ArrayList<Instrument>()
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +84,7 @@ class CustomerActivity : AppCompatActivity() {
 
         checkOutBtn.setOnClickListener {
             val intent = Intent(this, CheckOutActivity::class.java)
+            intent.putParcelableArrayListExtra("instruments", cardList)
             startActivity(intent)
         }
 
@@ -96,6 +102,8 @@ class CustomerActivity : AppCompatActivity() {
             instrumentsLV.adapter = customerInstrumentAdapter
         }
     }
+
+
 
 
 }

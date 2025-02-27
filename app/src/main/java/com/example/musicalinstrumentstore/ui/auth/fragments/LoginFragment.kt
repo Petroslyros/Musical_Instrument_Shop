@@ -13,7 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.musicalinstrumentstore.AdminActivity
 import com.example.musicalinstrumentstore.EmployeeActivity
-import com.example.musicalinstrumentstore.CustomerActivity
+import com.example.musicalinstrumentstore.ui.customer.CustomerActivity
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
                     val editor = sharedPref?.edit()
                     editor?.putString("email", user.email)
                     editor?.apply()
-                    val intent = Intent(requireContext(),CustomerActivity::class.java)
+                    val intent = Intent(requireContext(), CustomerActivity::class.java)
                     startActivity(intent)
 
                 }
