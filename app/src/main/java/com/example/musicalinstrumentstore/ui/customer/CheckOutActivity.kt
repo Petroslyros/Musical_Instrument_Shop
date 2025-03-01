@@ -3,6 +3,7 @@ package com.example.musicalinstrumentstore.ui.customer
 import android.os.Bundle
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +14,7 @@ import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.ui.adapter.CheckOutAdapter
+import com.example.musicalinstrumentstore.ui.customer.viewModel.CheckOutViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,15 +39,28 @@ class CheckOutActivity : AppCompatActivity() {
 
          instrumentsList = intent.getParcelableArrayListExtra("instruments")!!
 
+        val checkOutViewModel = CheckOutViewModel()
+
         val database = AppDatabase(this)
         totalCostTV = findViewById(R.id.totalCostTV)
         productsLV = findViewById(R.id.productsLV)
-        checkOutAdapter = CheckOutAdapter(this,instrumentsList)
+        checkOutAdapter = CheckOutAdapter(this,instrumentsList,checkOutViewModel)
         repository = InstrumentsRepository(database)
 
-        fetchAndPopulate()
-        totalCostTV.text = calculateTotalCost().toString()
 
+        checkOutViewModel.calculateTotalCost(instrumentsList)
+        checkOutViewModel.totalCost.observe(this) { result ->
+            totalCostTV.text = "$result"
+        }
+
+        fetchAndPopulate()
+
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        CustomerActivity.cartList.clear()
     }
 
 

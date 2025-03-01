@@ -8,10 +8,20 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
 import com.example.musicalinstrumentstore.R
+import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
+import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
+import com.example.musicalinstrumentstore.ui.customer.viewModel.CheckOutViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class CheckOutAdapter(private val context: Context, private val instruments: ArrayList<Instrument>) :
-BaseAdapter() {
+class CheckOutAdapter(
+    private val context: Context,
+    private val instruments: ArrayList<Instrument>,private val viewModel: CheckOutViewModel
+) :
+    BaseAdapter() {
     override fun getCount(): Int {
         return instruments.size
     }
@@ -42,16 +52,14 @@ BaseAdapter() {
         costTV.text = instruments[position].cost.toString()
 
         removeBtn.setOnClickListener {
-
+            instruments.removeAt(position)
+            viewModel.calculateTotalCost(instruments)
+            notifyDataSetChanged()
         }
 
 
 
         return view
-    }
-
-    private fun remove(position: Int){
-
     }
 
 

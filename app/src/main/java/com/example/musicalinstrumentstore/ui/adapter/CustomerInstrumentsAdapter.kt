@@ -47,7 +47,7 @@ class CustomerInstrumentsAdapter(val context: Context, private val instruments: 
         stockET.text = "Stock: ${instruments[position].stock}"
 
         addToCartBtn.setOnClickListener {
-            CustomerActivity.cardList.add(instruments[position])
+            CustomerActivity.cartList.add(instruments[position])
             Toast.makeText(context,"Item has been added to cart",Toast.LENGTH_LONG).show()
             notifyDataSetChanged()
         }

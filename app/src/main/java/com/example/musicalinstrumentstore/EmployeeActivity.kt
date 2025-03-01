@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
@@ -81,6 +82,25 @@ class EmployeeActivity : AppCompatActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener{
             showAddPopUp()
+        }
+        searchET.addTextChangedListener {
+            val query = searchET.text.toString()
+            lifecycleScope.launch {
+                if (query.isNotBlank()) {
+                    instrumentsList.clear()
+                    val temp = repository.searchInstruments(query)
+                    if (temp != null) {
+                        for (instrument in temp) {
+                            instrumentsList.add(instrument)
+                        }
+                    }
+                    adminInstrumentsAdapter.notifyDataSetChanged()
+                }
+                else {
+                    fetchAndPopulate()
+                }
+            }
+
         }
 
     }

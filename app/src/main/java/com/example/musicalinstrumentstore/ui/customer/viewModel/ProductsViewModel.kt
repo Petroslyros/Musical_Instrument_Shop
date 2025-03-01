@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicalinstrumentstore.data.database.AppDatabase
-import com.example.musicalinstrumentstore.data.model.User
 import com.example.musicalinstrumentstore.data.repository.UserRepository
 import kotlinx.coroutines.launch
 

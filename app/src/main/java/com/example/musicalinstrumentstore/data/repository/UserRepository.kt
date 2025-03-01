@@ -147,30 +147,33 @@ class UserRepository(private val database: AppDatabase) {
 
     }
 
-    suspend fun searchUser(query: String): User? {
-
+    suspend fun searchUsers(query: String): ArrayList<User>? {
+        val userList = ArrayList<User>()
         return withContext(Dispatchers.IO) {
             val db = database.readableDatabase
             val cursor = db.query(
                 "users",
-                null, "email = ? and name = ?",
-                arrayOf(query.toString()), null, null, null
+                null, "email like ?",
+                arrayOf("%$query%"), null, null, null
             )
-            cursor.use {
-                if (it.moveToFirst()) {
-                    User(
-                        id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
-                        email = it.getString(it.getColumnIndexOrThrow("email")),
-                        name = it.getString(it.getColumnIndexOrThrow("name")),
-                        surname = it.getString(it.getColumnIndexOrThrow("surname")),
-                        phone = it.getString(it.getColumnIndexOrThrow("phone")),
-                        address = it.getString(it.getColumnIndexOrThrow("address")),
-                        password = it.getString(it.getColumnIndexOrThrow("password")),
-                        role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
-                    )
-                } else null
 
+            cursor.use {
+                while (cursor.moveToNext()) {
+                    userList.add(
+                        User(
+                            id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing
+                            email = it.getString(it.getColumnIndexOrThrow("email")),
+                            name = it.getString(it.getColumnIndexOrThrow("name")),
+                            surname = it.getString(it.getColumnIndexOrThrow("surname")),
+                            phone = it.getString(it.getColumnIndexOrThrow("phone")),
+                            address = it.getString(it.getColumnIndexOrThrow("address")),
+                            password = it.getString(it.getColumnIndexOrThrow("password")),
+                            role = UserRole.valueOf(it.getString(it.getColumnIndexOrThrow("role"))),
+                        )
+                    )
+                }
             }
+            userList
         }
     }
 

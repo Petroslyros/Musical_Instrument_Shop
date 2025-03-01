@@ -50,7 +50,7 @@
     <TextView
         android:id="@+id/clickMeText"
         android:layout_marginTop="10dp"
-        android:textColor="#FB8C00"
+        android:textColor="#E64A19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

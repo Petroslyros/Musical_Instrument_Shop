@@ -3,6 +3,8 @@ package com.example.musicalinstrumentstore.data.repository
 import android.content.ContentValues
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
+import com.example.musicalinstrumentstore.data.model.User
+import com.example.musicalinstrumentstore.data.model.UserRole
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -46,6 +48,36 @@ class InstrumentsRepository(val database: AppDatabase) {
                 put("stock", instrument.stock)
             }
             db.update("instruments", values, "id = ?", arrayOf(id.toString()))
+        }
+    }
+
+    suspend fun searchInstruments(query: String): ArrayList<Instrument>? {
+        val instrumentList = ArrayList<Instrument>()
+        return withContext(Dispatchers.IO) {
+            val db = database.readableDatabase
+            val cursor = db.query(
+                "instruments",
+                null, "title like ?",
+                arrayOf("%$query%"), null, null, null
+            )
+
+            cursor.use {
+                while (cursor.moveToNext()) {
+                    instrumentList.add(
+                        Instrument(
+                            id = it.getInt(it.getColumnIndexOrThrow("id")),
+                            title = it.getString(it.getColumnIndexOrThrow("title")),
+                            brand = it.getString(it.getColumnIndexOrThrow("brand")),
+                            model = it.getString(it.getColumnIndexOrThrow("model")),
+                            itype = it.getString(it.getColumnIndexOrThrow("itype")),
+                            description = it.getString(it.getColumnIndexOrThrow("description")),
+                            cost = it.getFloat(it.getColumnIndexOrThrow("cost")),
+                            stock = it.getInt(it.getColumnIndexOrThrow("stock"))
+                        )
+                    )
+                }
+            }
+            instrumentList
         }
     }
 

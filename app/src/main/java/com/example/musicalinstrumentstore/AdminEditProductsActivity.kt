@@ -33,7 +33,7 @@ class AdminEditProductsActivity : AppCompatActivity() {
 
     private lateinit var searchET: EditText
     private lateinit var instrumentsLV: ListView
-    private lateinit var repository: InstrumentsRepository
+    private lateinit var instrumentRepository: InstrumentsRepository
     private lateinit var adminInstrumentsAdapter: AdminInstrumentsAdapter
     private var instrumentsList = ArrayList<Instrument>()
 
@@ -49,7 +49,7 @@ class AdminEditProductsActivity : AppCompatActivity() {
         }
 
         val database = AppDatabase(this)
-        repository = InstrumentsRepository(database)
+        instrumentRepository = InstrumentsRepository(database)
         adminInstrumentsAdapter = AdminInstrumentsAdapter(this, instrumentsList)
         val userRepo = UserRepository(database)
 
@@ -65,7 +65,7 @@ class AdminEditProductsActivity : AppCompatActivity() {
 
         productsViewModel.userName.observe(this) { result ->
             result.onSuccess { userName ->
-                titleTV.text = "Welcome $userName"
+                titleTV.text = "Welcome admin"
             }
             result.onFailure {
                 Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT)
@@ -86,27 +86,32 @@ class AdminEditProductsActivity : AppCompatActivity() {
             showAddPopUp()
         }
 
-//        searchET.addTextChangedListener {
-//            val query = searchET.text.toString()
-//            lifecycleScope.launch {
-//                if (query.isNotBlank()) {
-//                    userRepo.searchUser(query) { results ->
-//                        instrumentsList.clear()
-//                        instrumentsList.addAll(results)
-//                        adminInstrumentsAdapter.notifyDataSetChanged()
-//                    }
-//                }
-//            }
-//
-//        }
+        searchET.addTextChangedListener {
+            val query = searchET.text.toString()
+            lifecycleScope.launch {
+                if (query.isNotBlank()) {
+                    instrumentsList.clear()
+                    val temp = instrumentRepository.searchInstruments(query)
+                    if (temp != null) {
+                        for (instrument in temp) {
+                            instrumentsList.add(instrument)
+                        }
+                    }
+                    adminInstrumentsAdapter.notifyDataSetChanged()
+                }
+                else {
+                    fetchAndPopulate()
+                }
 
+            }
 
+        }
     }
 
     private fun fetchAndPopulate() {
         lifecycleScope.launch {
             val instruments = withContext(Dispatchers.IO) {
-                repository.fetchAllInstruments()
+                instrumentRepository.fetchAllInstruments()
             }
             instrumentsList.clear()
             instrumentsList.addAll(instruments)
@@ -147,7 +152,7 @@ class AdminEditProductsActivity : AppCompatActivity() {
                     description = desc, cost = cost, stock = stock, itype = "String_Instrument"
                 )
                 try {
-                    repository.addInstrument(instrument)
+                    instrumentRepository.addInstrument(instrument)
                     fetchAndPopulate()
                     popupWindow.dismiss()
                 } catch (e: IllegalArgumentException) {

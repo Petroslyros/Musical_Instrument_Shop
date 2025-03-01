@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
@@ -33,10 +34,9 @@ class CustomerActivity : AppCompatActivity() {
     private var instrumentsList = ArrayList<Instrument>()
     private lateinit var checkOutBtn: Button
 
-    companion object{
-        var cardList = ArrayList<Instrument>()
+    companion object {
+        var cartList = ArrayList<Instrument>()
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,9 +83,35 @@ class CustomerActivity : AppCompatActivity() {
         fetchAndPopulate()
 
         checkOutBtn.setOnClickListener {
-            val intent = Intent(this, CheckOutActivity::class.java)
-            intent.putParcelableArrayListExtra("instruments", cardList)
-            startActivity(intent)
+            if (cartList.isEmpty()) {
+                Toast.makeText(this, "Your cart is empty", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, CheckOutActivity::class.java)
+                intent.putParcelableArrayListExtra("instruments", cartList)
+                startActivity(intent)
+            }
+
+        }
+        searchET.addTextChangedListener {
+            val query = searchET.text.toString()
+            lifecycleScope.launch {
+                if (query.isNotBlank()) {
+                    instrumentsList.clear()
+                    val temp = repository.searchInstruments(query)
+                    if (temp != null) {
+                        for (instrument in temp) {
+                            instrumentsList.add(instrument)
+                        }
+                    }
+                    customerInstrumentAdapter.notifyDataSetChanged()
+                }
+                else {
+                    fetchAndPopulate()
+                }
+
+            }
+
+
         }
 
 
@@ -102,8 +128,6 @@ class CustomerActivity : AppCompatActivity() {
             instrumentsLV.adapter = customerInstrumentAdapter
         }
     }
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.musicalinstrumentstore
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.User
@@ -20,8 +22,8 @@ import kotlinx.coroutines.withContext
 
 class AdminEditUsersActivity : AppCompatActivity() {
 
-    private lateinit var searchET : EditText
-    private lateinit var usersLV : ListView
+    private lateinit var searchET: EditText
+    private lateinit var usersLV: ListView
     private lateinit var userRepository: UserRepository
     private var usersList = ArrayList<User>()
     private lateinit var usersAdapter: AdminUsersAdapter
@@ -39,19 +41,38 @@ class AdminEditUsersActivity : AppCompatActivity() {
 
         val db = AppDatabase(this)
         userRepository = UserRepository(db)
-        usersAdapter = AdminUsersAdapter(this,usersList)
+        usersAdapter = AdminUsersAdapter(this, usersList)
 
         usersLV = findViewById(R.id.usersLV)
         searchET = findViewById(R.id.searchET)
 
         fetchAndPopulate()
 
+            searchET.addTextChangedListener {
+                val query = searchET.text.toString()
+                lifecycleScope.launch {
+                    if (query.isNotBlank()) {
+                        usersList.clear()
+                        val temp = userRepository.searchUsers(query)
+                        if (temp != null) {
+                            for(user in temp){
+                                usersList.add(user)
+                            }
+                        }
+                        usersAdapter.notifyDataSetChanged()
+                    }
+
+                }
+
+            }
+
+
 
     }
 
-    private fun fetchAndPopulate(){
+    private fun fetchAndPopulate() {
         lifecycleScope.launch {
-            val users = withContext(Dispatchers.IO){
+            val users = withContext(Dispatchers.IO) {
                 userRepository.fetchAllUsers()
             }
             usersList.clear()
@@ -60,7 +81,6 @@ class AdminEditUsersActivity : AppCompatActivity() {
             usersLV.adapter = usersAdapter
         }
     }
-
 
 
 }
