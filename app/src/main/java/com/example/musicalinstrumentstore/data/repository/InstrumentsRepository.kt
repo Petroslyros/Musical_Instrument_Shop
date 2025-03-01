@@ -51,7 +51,7 @@ class InstrumentsRepository(val database: AppDatabase) {
         }
     }
 
-    suspend fun searchInstruments(query: String): ArrayList<Instrument>? {
+    suspend fun searchInstruments(query: String): ArrayList<Instrument> {
         val instrumentList = ArrayList<Instrument>()
         return withContext(Dispatchers.IO) {
             val db = database.readableDatabase

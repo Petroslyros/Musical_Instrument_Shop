@@ -19,16 +19,16 @@
             android:name=".ui.customer.CheckOutActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminEditProductsActivity"
+            android:name=".ui.admin.AdminEditProductsActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminEditUsersActivity"
+            android:name=".ui.admin.AdminEditUsersActivity"
             android:exported="false" />
         <activity
             android:name=".EmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminActivity"
+            android:name=".ui.admin.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".ui.customer.CustomerActivity"

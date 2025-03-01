@@ -1,4 +1,4 @@
-package com.example.musicalinstrumentstore
+package com.example.musicalinstrumentstore.ui.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.musicalinstrumentstore.R
 
 class AdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +26,11 @@ class AdminActivity : AppCompatActivity() {
 
 
         editUsersBtn.setOnClickListener {
-            val intent = Intent(this,AdminEditUsersActivity::class.java)
+            val intent = Intent(this, AdminEditUsersActivity::class.java)
             startActivity(intent)
         }
         editProductsBtn.setOnClickListener {
-            val intent = Intent(this,AdminEditProductsActivity::class.java)
+            val intent = Intent(this, AdminEditProductsActivity::class.java)
             startActivity(intent)
         }
 

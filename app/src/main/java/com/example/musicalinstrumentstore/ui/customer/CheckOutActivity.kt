@@ -76,13 +76,4 @@ class CheckOutActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun calculateTotalCost() : Float{
-        var totalCost = 0f
-
-        for(i in instrumentsList.indices){
-            totalCost += instrumentsList[i].cost
-        }
-        return totalCost
-    }
 }

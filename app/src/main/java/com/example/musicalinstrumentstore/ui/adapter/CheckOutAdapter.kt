@@ -19,7 +19,8 @@ import kotlinx.coroutines.withContext
 
 class CheckOutAdapter(
     private val context: Context,
-    private val instruments: ArrayList<Instrument>,private val viewModel: CheckOutViewModel
+    private val instruments: ArrayList<Instrument>,
+    private val viewModel: CheckOutViewModel
 ) :
     BaseAdapter() {
     override fun getCount(): Int {
@@ -43,6 +44,7 @@ class CheckOutAdapter(
         val modelTV = view.findViewById<TextView>(R.id.modelTV)
         val descriptionTV = view.findViewById<TextView>(R.id.descriptionTV)
         val costTV = view.findViewById<TextView>(R.id.costTV)
+        val quantityTV = view.findViewById<TextView>(R.id.quantityTV)
         val removeBtn = view.findViewById<Button>(R.id.removeBtn)
 
         titleTV.text = instruments[position].title
@@ -57,9 +59,11 @@ class CheckOutAdapter(
             notifyDataSetChanged()
         }
 
-
-
         return view
+    }
+
+    private fun displayQuantity(position: Int){
+
     }
 
 
