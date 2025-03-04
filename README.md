@@ -6,7 +6,7 @@ A Musical Instrument Store app built using Android Studio and Kotlin that allows
 - Admins can add, edit, and remove instruments from the store.
 - Users have different roles (Admin, Employee, Customer) with distinct permissions.
 - Uses SQLite for storing and managing user and product data.
-- Implements MVVM architecture for clean and maintainable code.
+- Implements MVVM architecture and ViewBinding for clean and maintainable code.
 - LiveData and ViewModel for improvided UI responsiveness and data handling.
 
 Users can Login
