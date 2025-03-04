@@ -3,7 +3,6 @@ package com.example.musicalinstrumentstore.ui.customer
 import android.os.Bundle
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
+import com.example.musicalinstrumentstore.data.model.CartInstrument
 import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.ui.adapter.CheckOutAdapter
@@ -25,7 +25,7 @@ class CheckOutActivity : AppCompatActivity() {
     private lateinit var productsLV : ListView
     private lateinit var checkOutAdapter: CheckOutAdapter
     private lateinit var repository: InstrumentsRepository
-    private var instrumentsList = ArrayList<Instrument>()
+    private var instrumentsList = ArrayList<CartInstrument>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class CheckOutActivity : AppCompatActivity() {
             insets
         }
 
-         instrumentsList = intent.getParcelableArrayListExtra("instruments")!!
+         instrumentsList = intent.getParcelableArrayListExtra("instruments")?: ArrayList()
 
         val checkOutViewModel = CheckOutViewModel()
 
@@ -47,33 +47,28 @@ class CheckOutActivity : AppCompatActivity() {
         checkOutAdapter = CheckOutAdapter(this,instrumentsList,checkOutViewModel)
         repository = InstrumentsRepository(database)
 
+        productsLV.adapter= checkOutAdapter
 
         checkOutViewModel.calculateTotalCost(instrumentsList)
-        checkOutViewModel.totalCost.observe(this) { result ->
+        checkOutViewModel.totalCost.observe(this){ result ->
             totalCostTV.text = "$result"
         }
 
-        fetchAndPopulate()
-
-
+//        fetchAndPopulate()
 
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        CustomerActivity.cartList.clear()
-    }
 
 
-    private fun fetchAndPopulate() {
-        lifecycleScope.launch {
-            val instruments = withContext(Dispatchers.IO) {
-                repository.fetchAllInstruments()
-            }
-            instrumentsList.clear()
-            instrumentsList.addAll(instruments)
-            checkOutAdapter.notifyDataSetChanged()
-            productsLV.adapter = checkOutAdapter
-        }
-    }
+//    private fun fetchAndPopulate() {
+//        lifecycleScope.launch {
+//            val instruments = withContext(Dispatchers.IO) {
+//                repository.fetchAllInstruments()
+//            }
+//            instrumentsList.clear()
+//            instrumentsList.addAll(instruments)
+//            checkOutAdapter.notifyDataSetChanged()
+//            productsLV.adapter = checkOutAdapter
+//        }
+//    }
 
 }

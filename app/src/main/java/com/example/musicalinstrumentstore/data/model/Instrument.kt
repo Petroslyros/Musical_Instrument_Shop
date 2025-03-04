@@ -13,6 +13,6 @@ data class Instrument(
     val itype: String,
     val description: String,
     val cost: Float,
-    val stock: Int
+    var stock: Int
 ) : Parcelable
 

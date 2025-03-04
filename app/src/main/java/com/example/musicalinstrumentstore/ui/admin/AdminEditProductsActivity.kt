@@ -93,10 +93,8 @@ class AdminEditProductsActivity : AppCompatActivity() {
                 if (query.isNotBlank()) {
                     instrumentsList.clear()
                     val temp = instrumentRepository.searchInstruments(query)
-                    if (temp != null) {
-                        for (instrument in temp) {
-                            instrumentsList.add(instrument)
-                        }
+                    for (instrument in temp) {
+                        instrumentsList.add(instrument)
                     }
                     adminInstrumentsAdapter.notifyDataSetChanged()
                 }

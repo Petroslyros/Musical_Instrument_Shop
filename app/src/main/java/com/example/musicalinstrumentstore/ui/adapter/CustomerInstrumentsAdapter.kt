@@ -10,9 +10,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.musicalinstrumentstore.ui.customer.CustomerActivity
 import com.example.musicalinstrumentstore.R
+import com.example.musicalinstrumentstore.data.model.CartInstrument
 import com.example.musicalinstrumentstore.data.model.Instrument
 
-class CustomerInstrumentsAdapter(val context: Context, private val instruments: ArrayList<Instrument>) :
+class CustomerInstrumentsAdapter(val context: Context, private var instruments: ArrayList<Instrument>) :
     BaseAdapter() {
     override fun getCount(): Int {
         return instruments.size
@@ -47,12 +48,30 @@ class CustomerInstrumentsAdapter(val context: Context, private val instruments: 
         stockET.text = "Stock: ${instruments[position].stock}"
 
         addToCartBtn.setOnClickListener {
-            CustomerActivity.cartList.add(instruments[position])
-            Toast.makeText(context,"Item has been added to cart",Toast.LENGTH_LONG).show()
+            //check if the instrument already exists in the cart
+           val pos = instrumentExists(CustomerActivity.cart,instruments[position])
+            if(pos != -1){
+                CustomerActivity.cart[pos].quantity++
+            }
+            //otherwise add it to the cart
+            else {
+                CustomerActivity.cart.add(CartInstrument(instruments[position],1))
+                Toast.makeText(context, "Item has been added to cart", Toast.LENGTH_LONG).show()
+            }
+            instruments[position].stock--
             notifyDataSetChanged()
+
         }
 
 
         return view
+    }
+
+    private fun instrumentExists(cartInstruments: ArrayList<CartInstrument>, instrument: Instrument) : Int{
+        for(i in cartInstruments.indices){
+            if(cartInstruments[i].instrument == instrument)
+                return i
+        }
+     return -1
     }
 }

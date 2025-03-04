@@ -14,11 +14,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.example.musicalinstrumentstore.data.model.CartInstrument
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.data.repository.UserRepository
+import com.example.musicalinstrumentstore.databinding.ActivityCustomerBinding
 import com.example.musicalinstrumentstore.ui.adapter.CustomerInstrumentsAdapter
 import com.example.musicalinstrumentstore.ui.customer.viewModel.ProductsViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,107 +29,72 @@ import kotlinx.coroutines.withContext
 
 class CustomerActivity : AppCompatActivity() {
 
-    private lateinit var searchET: EditText
-    private lateinit var instrumentsLV: ListView
+    private lateinit var binding: ActivityCustomerBinding
     private lateinit var repository: InstrumentsRepository
     private lateinit var customerInstrumentAdapter: CustomerInstrumentsAdapter
     private var instrumentsList = ArrayList<Instrument>()
-    private lateinit var checkOutBtn: Button
 
     companion object {
         var cartList = ArrayList<Instrument>()
+        var cart = ArrayList<CartInstrument>()
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_customer)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
+        binding = ActivityCustomerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val database = AppDatabase(this)
         repository = InstrumentsRepository(database)
         customerInstrumentAdapter = CustomerInstrumentsAdapter(this, instrumentsList)
         val userRepo = UserRepository(database)
 
-
-        //change the user name dynamically when it's changed
         val sharedPref = getSharedPreferences("cookies", Context.MODE_PRIVATE)
         val userMail = sharedPref.getString("email", "") ?: ""
         val productsViewModel = ProductsViewModel(userRepo)
 
-        val titleTV = findViewById<TextView>(R.id.titleTV)
-
         productsViewModel.userName.observe(this) { result ->
-            result.onSuccess { userName ->
-                titleTV.text = "Welcome $userName"
-            }
+            result.onSuccess { userName -> binding.titleTV.text = "Welcome $userName" }
             result.onFailure {
-                Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT).show()
             }
-
         }
         productsViewModel.getUserName(userMail)
 
+        binding.instrumentsLV.adapter = customerInstrumentAdapter
 
-        instrumentsLV = findViewById(R.id.instrumentsLV)
-        searchET = findViewById(R.id.searchET)
-        checkOutBtn = findViewById(R.id.checkOutBtn)
-
-        fetchAndPopulate()
-
-        checkOutBtn.setOnClickListener {
-            if (cartList.isEmpty()) {
+        binding.checkOutBtn.setOnClickListener {
+            if (cart.isEmpty()) {
                 Toast.makeText(this, "Your cart is empty", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(this, CheckOutActivity::class.java)
-                intent.putParcelableArrayListExtra("instruments", cartList)
+                intent.putParcelableArrayListExtra("instruments", cart)
                 startActivity(intent)
             }
-
         }
-        searchET.addTextChangedListener {
-            val query = searchET.text.toString()
+
+        binding.searchET.addTextChangedListener {
+            val query = binding.searchET.text.toString()
             lifecycleScope.launch {
                 if (query.isNotBlank()) {
                     instrumentsList.clear()
-                    val temp = repository.searchInstruments(query)
-                    if (temp != null) {
-                        for (instrument in temp) {
-                            instrumentsList.add(instrument)
-                        }
-                    }
+                    instrumentsList.addAll(repository.searchInstruments(query))
                     customerInstrumentAdapter.notifyDataSetChanged()
-                }
-                else {
+                } else {
                     fetchAndPopulate()
                 }
-
             }
-
-
         }
 
-
+        fetchAndPopulate()
     }
 
     private fun fetchAndPopulate() {
         lifecycleScope.launch {
-            val instruments = withContext(Dispatchers.IO) {
-                repository.fetchAllInstruments()
-            }
+            val instruments = withContext(Dispatchers.IO) { repository.fetchAllInstruments() }
             instrumentsList.clear()
             instrumentsList.addAll(instruments)
             customerInstrumentAdapter.notifyDataSetChanged()
-            instrumentsLV.adapter = customerInstrumentAdapter
         }
     }
-
-
 }
