@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import android.widget.PopupWindow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,27 +19,29 @@ import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.data.repository.UserRepository
+import com.example.musicalinstrumentstore.databinding.ActivityAdminEditProductsBinding
+import com.example.musicalinstrumentstore.databinding.AdminProductCreateBinding
 import com.example.musicalinstrumentstore.ui.adapter.AdminInstrumentsAdapter
 import com.example.musicalinstrumentstore.ui.customer.viewModel.ProductsViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AdminEditProductsActivity : AppCompatActivity() {
 
-    private lateinit var searchET: EditText
-    private lateinit var instrumentsLV: ListView
+    private lateinit var binding: ActivityAdminEditProductsBinding
     private lateinit var instrumentRepository: InstrumentsRepository
     private lateinit var adminInstrumentsAdapter: AdminInstrumentsAdapter
     private var instrumentsList = ArrayList<Instrument>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_admin_edit_products)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
+        binding = ActivityAdminEditProductsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -54,56 +52,40 @@ class AdminEditProductsActivity : AppCompatActivity() {
         adminInstrumentsAdapter = AdminInstrumentsAdapter(this, instrumentsList)
         val userRepo = UserRepository(database)
 
-
-        //observe the user name and change it dynamically
+        // Observe the user name and update dynamically
         val sharedPref = getSharedPreferences("cookies", Context.MODE_PRIVATE)
         val userMail = sharedPref.getString("email", "") ?: ""
         val productsViewModel = ProductsViewModel(userRepo)
 
-        val titleTV = findViewById<TextView>(R.id.titleTV)
-
         productsViewModel.getUserName(userMail)
-
         productsViewModel.userName.observe(this) { result ->
-            result.onSuccess { userName ->
-                titleTV.text = "Welcome admin"
+            result.onSuccess {
+                binding.titleTV.text = "Welcome admin"
             }
             result.onFailure {
                 Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT)
                     .show()
             }
-
         }
-
-
-
-        instrumentsLV = findViewById(R.id.instrumentsLV)
-        searchET = findViewById(R.id.searchET)
 
         fetchAndPopulate()
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             showAddPopUp()
         }
 
-        searchET.addTextChangedListener {
-            val query = searchET.text.toString()
+        binding.searchET.addTextChangedListener {
+            val query = binding.searchET.text.toString()
             lifecycleScope.launch {
                 if (query.isNotBlank()) {
                     instrumentsList.clear()
                     val temp = instrumentRepository.searchInstruments(query)
-                    for (instrument in temp) {
-                        instrumentsList.add(instrument)
-                    }
+                    instrumentsList.addAll(temp)
                     adminInstrumentsAdapter.notifyDataSetChanged()
-                }
-                else {
+                } else {
                     fetchAndPopulate()
                 }
-
             }
-
         }
     }
 
@@ -115,35 +97,33 @@ class AdminEditProductsActivity : AppCompatActivity() {
             instrumentsList.clear()
             instrumentsList.addAll(instruments)
             adminInstrumentsAdapter.notifyDataSetChanged()
-            instrumentsLV.adapter = adminInstrumentsAdapter
+            binding.instrumentsLV.adapter = adminInstrumentsAdapter
         }
     }
 
     private fun showAddPopUp() {
         val inflater = LayoutInflater.from(this)
-        val popupView = inflater.inflate(R.layout.admin_product_create, null)
+        val popupBinding = AdminProductCreateBinding.inflate(inflater)
+
         val popupWindow = PopupWindow(
-            popupView,
+            popupBinding.root,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
 
-        val titleET = popupView.findViewById<EditText>(R.id.titleET)
-        val brandET = popupView.findViewById<EditText>(R.id.brandET)
-        val modelET = popupView.findViewById<EditText>(R.id.modelET)
-        val descriptionET = popupView.findViewById<EditText>(R.id.descriptionET)
-        val costET = popupView.findViewById<EditText>(R.id.costET)
-        val stockET = popupView.findViewById<EditText>(R.id.stockET)
-        val addItemBtn = popupView.findViewById<Button>(R.id.addItemBtn)
+        popupBinding.addItemBtn.setOnClickListener {
+            val title = popupBinding.titleET.text.toString()
+            val brand = popupBinding.brandET.text.toString()
+            val model = popupBinding.modelET.text.toString()
+            val desc = popupBinding.descriptionET.text.toString()
+            val cost = popupBinding.costET.text.toString().toFloatOrNull()
+            val stock = popupBinding.stockET.text.toString().toIntOrNull()
 
-        addItemBtn.setOnClickListener {
-            val title = titleET.text.toString()
-            val brand = brandET.text.toString()
-            val model = modelET.text.toString()
-            val desc = descriptionET.text.toString()
-            val cost = costET.text.toString().toFloat()
-            val stock = stockET.text.toString().toInt()
+            if (cost == null || stock == null) {
+                Toast.makeText(this, "Invalid input values", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             lifecycleScope.launch {
                 val instrument = Instrument(
@@ -164,17 +144,10 @@ class AdminEditProductsActivity : AppCompatActivity() {
             }
         }
 
-
         popupWindow.setBackgroundDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.popup_background
-            )
+            ContextCompat.getDrawable(this, R.drawable.popup_background)
         )
         popupWindow.isOutsideTouchable = true
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-
+        popupWindow.showAtLocation(popupBinding.root, Gravity.CENTER, 0, 0)
     }
-
-
 }

@@ -1,28 +1,22 @@
 package com.example.musicalinstrumentstore.ui.customer
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ListView
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.CartInstrument
-import com.example.musicalinstrumentstore.data.model.Instrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
+import com.example.musicalinstrumentstore.databinding.ActivityCheckOutBinding
 import com.example.musicalinstrumentstore.ui.adapter.CheckOutAdapter
 import com.example.musicalinstrumentstore.ui.customer.viewModel.CheckOutViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CheckOutActivity : AppCompatActivity() {
 
-    private lateinit var totalCostTV : TextView
-    private lateinit var productsLV : ListView
+    private lateinit var binding: ActivityCheckOutBinding
     private lateinit var checkOutAdapter: CheckOutAdapter
     private lateinit var repository: InstrumentsRepository
     private var instrumentsList = ArrayList<CartInstrument>()
@@ -30,45 +24,33 @@ class CheckOutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_check_out)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
+        binding = ActivityCheckOutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-         instrumentsList = intent.getParcelableArrayListExtra("instruments")?: ArrayList()
-
+        instrumentsList = intent.getParcelableArrayListExtra("instruments") ?: ArrayList()
         val checkOutViewModel = CheckOutViewModel()
-
         val database = AppDatabase(this)
-        totalCostTV = findViewById(R.id.totalCostTV)
-        productsLV = findViewById(R.id.productsLV)
-        checkOutAdapter = CheckOutAdapter(this,instrumentsList,checkOutViewModel)
         repository = InstrumentsRepository(database)
 
-        productsLV.adapter= checkOutAdapter
+        checkOutAdapter = CheckOutAdapter(this, instrumentsList, checkOutViewModel)
+        binding.productsLV.adapter = checkOutAdapter
 
         checkOutViewModel.calculateTotalCost(instrumentsList)
-        checkOutViewModel.totalCost.observe(this){ result ->
-            totalCostTV.text = "$result"
+        checkOutViewModel.totalCost.observe(this) { result ->
+            binding.totalCostTV.text = "$result $"
         }
-
-//        fetchAndPopulate()
-
+        binding.goBackBtn.setOnClickListener {
+            instrumentsList.clear()
+            checkOutAdapter.notifyDataSetChanged()
+            val intent = Intent(this, CustomerActivity::class.java)
+            startActivity(intent)
+        }
     }
-
-
-//    private fun fetchAndPopulate() {
-//        lifecycleScope.launch {
-//            val instruments = withContext(Dispatchers.IO) {
-//                repository.fetchAllInstruments()
-//            }
-//            instrumentsList.clear()
-//            instrumentsList.addAll(instruments)
-//            checkOutAdapter.notifyDataSetChanged()
-//            productsLV.adapter = checkOutAdapter
-//        }
-//    }
-
 }

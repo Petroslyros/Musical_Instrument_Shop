@@ -46,10 +46,12 @@ class CheckOutAdapter(
         brandTV.text = instruments[position].instrument.brand
         modelTV.text = instruments[position].instrument.model
         descriptionTV.text = instruments[position].instrument.description
-        costTV.text = instruments[position].instrument.cost.toString()
+        costTV.text = "Price: ${instruments[position].instrument.cost}"
+        quantityTV.text = "Quantity: ${instruments[position].quantity}"
 
 
         removeBtn.setOnClickListener {
+
             instruments.removeAt(position)
             viewModel.calculateTotalCost(instruments)
             notifyDataSetChanged()

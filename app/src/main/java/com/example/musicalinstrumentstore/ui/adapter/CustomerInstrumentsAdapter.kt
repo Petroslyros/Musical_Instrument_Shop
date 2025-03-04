@@ -48,8 +48,12 @@ class CustomerInstrumentsAdapter(val context: Context, private var instruments: 
         stockET.text = "Stock: ${instruments[position].stock}"
 
         addToCartBtn.setOnClickListener {
+
             //check if the instrument already exists in the cart
            val pos = instrumentExists(CustomerActivity.cart,instruments[position])
+            if(instruments[position].stock < 0){
+                Toast.makeText(context, "No item left in stock", Toast.LENGTH_LONG).show()
+            }
             if(pos != -1){
                 CustomerActivity.cart[pos].quantity++
             }
@@ -58,7 +62,9 @@ class CustomerInstrumentsAdapter(val context: Context, private var instruments: 
                 CustomerActivity.cart.add(CartInstrument(instruments[position],1))
                 Toast.makeText(context, "Item has been added to cart", Toast.LENGTH_LONG).show()
             }
-            instruments[position].stock--
+            if(instruments[position].stock > 0) {
+                instruments[position].stock--
+            }
             notifyDataSetChanged()
 
         }
