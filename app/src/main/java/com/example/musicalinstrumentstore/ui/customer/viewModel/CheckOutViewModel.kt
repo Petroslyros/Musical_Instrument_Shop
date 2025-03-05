@@ -17,7 +17,7 @@ class CheckOutViewModel : ViewModel() {
     fun calculateTotalCost(instrumentList : ArrayList<CartInstrument>){
         var total = 0f
         for(instrument in instrumentList){
-            total += instrument.instrument.cost
+            total += instrument.instrument.cost * instrument.quantity
         }
         _totalCost.value = total
     }

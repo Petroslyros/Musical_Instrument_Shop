@@ -12,6 +12,7 @@ import com.example.musicalinstrumentstore.data.model.CartInstrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
 import com.example.musicalinstrumentstore.databinding.ActivityCheckOutBinding
 import com.example.musicalinstrumentstore.ui.adapter.CheckOutAdapter
+import com.example.musicalinstrumentstore.ui.customer.CustomerActivity.Companion.cart
 import com.example.musicalinstrumentstore.ui.customer.viewModel.CheckOutViewModel
 
 class CheckOutActivity : AppCompatActivity() {
@@ -52,5 +53,13 @@ class CheckOutActivity : AppCompatActivity() {
             val intent = Intent(this, CustomerActivity::class.java)
             startActivity(intent)
         }
+
+        binding.finalizePurchaseBtn.setOnClickListener {
+            val intent = Intent(this, FinalizePurchaseActivity::class.java)
+            intent.putParcelableArrayListExtra("instruments", instrumentsList)
+            startActivity(intent)
+        }
+
+
     }
 }

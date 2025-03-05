@@ -35,7 +35,6 @@ class CustomerActivity : AppCompatActivity() {
     private var instrumentsList = ArrayList<Instrument>()
 
     companion object {
-        var cartList = ArrayList<Instrument>()
         var cart = ArrayList<CartInstrument>()
     }
 

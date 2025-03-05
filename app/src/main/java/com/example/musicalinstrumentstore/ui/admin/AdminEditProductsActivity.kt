@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -38,6 +40,7 @@ class AdminEditProductsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Initialize ViewBinding
         binding = ActivityAdminEditProductsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -103,27 +106,29 @@ class AdminEditProductsActivity : AppCompatActivity() {
 
     private fun showAddPopUp() {
         val inflater = LayoutInflater.from(this)
-        val popupBinding = AdminProductCreateBinding.inflate(inflater)
-
+        val popupView = inflater.inflate(R.layout.admin_product_create, null)
         val popupWindow = PopupWindow(
-            popupBinding.root,
+            popupView,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
 
-        popupBinding.addItemBtn.setOnClickListener {
-            val title = popupBinding.titleET.text.toString()
-            val brand = popupBinding.brandET.text.toString()
-            val model = popupBinding.modelET.text.toString()
-            val desc = popupBinding.descriptionET.text.toString()
-            val cost = popupBinding.costET.text.toString().toFloatOrNull()
-            val stock = popupBinding.stockET.text.toString().toIntOrNull()
+        val titleET = popupView.findViewById<EditText>(R.id.titleET)
+        val brandET = popupView.findViewById<EditText>(R.id.brandET)
+        val modelET = popupView.findViewById<EditText>(R.id.modelET)
+        val descriptionET = popupView.findViewById<EditText>(R.id.descriptionET)
+        val costET = popupView.findViewById<EditText>(R.id.costET)
+        val stockET = popupView.findViewById<EditText>(R.id.stockET)
+        val addItemBtn = popupView.findViewById<Button>(R.id.addItemBtn)
 
-            if (cost == null || stock == null) {
-                Toast.makeText(this, "Invalid input values", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+        addItemBtn.setOnClickListener {
+            val title = titleET.text.toString()
+            val brand = brandET.text.toString()
+            val model = modelET.text.toString()
+            val desc = descriptionET.text.toString()
+            val cost = costET.text.toString().toFloat()
+            val stock = stockET.text.toString().toInt()
 
             lifecycleScope.launch {
                 val instrument = Instrument(
@@ -144,10 +149,15 @@ class AdminEditProductsActivity : AppCompatActivity() {
             }
         }
 
+
         popupWindow.setBackgroundDrawable(
-            ContextCompat.getDrawable(this, R.drawable.popup_background)
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.popup_background
+            )
         )
         popupWindow.isOutsideTouchable = true
-        popupWindow.showAtLocation(popupBinding.root, Gravity.CENTER, 0, 0)
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+
     }
 }
