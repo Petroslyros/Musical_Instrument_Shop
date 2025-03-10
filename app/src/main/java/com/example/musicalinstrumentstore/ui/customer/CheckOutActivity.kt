@@ -10,6 +10,7 @@ import com.example.musicalinstrumentstore.R
 import com.example.musicalinstrumentstore.data.database.AppDatabase
 import com.example.musicalinstrumentstore.data.model.CartInstrument
 import com.example.musicalinstrumentstore.data.repository.InstrumentsRepository
+import com.example.musicalinstrumentstore.data.repository.PurchasesRepository
 import com.example.musicalinstrumentstore.databinding.ActivityCheckOutBinding
 import com.example.musicalinstrumentstore.ui.adapter.CheckOutAdapter
 import com.example.musicalinstrumentstore.ui.customer.CustomerActivity.Companion.cart
@@ -21,6 +22,7 @@ class CheckOutActivity : AppCompatActivity() {
     private lateinit var checkOutAdapter: CheckOutAdapter
     private lateinit var repository: InstrumentsRepository
     private var instrumentsList = ArrayList<CartInstrument>()
+    private lateinit var purchasesRepository: PurchasesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

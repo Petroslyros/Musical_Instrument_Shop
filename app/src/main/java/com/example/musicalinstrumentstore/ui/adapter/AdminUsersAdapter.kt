@@ -68,10 +68,11 @@ class AdminUsersAdapter(val context: Context, private val users: ArrayList<User>
             val userToDelete = users[position]
             val db = AppDatabase(context)
             val userRepo = UserRepository(db)
+            withContext(Dispatchers.Main) {
             if (users[position].role == UserRole.ADMIN) {
                 Toast.makeText(context, "Admin user cannot be deleted", Toast.LENGTH_SHORT).show()
             } else {
-                withContext(Dispatchers.Main) {
+
                     userRepo.deleteUser(userToDelete.id)
                     users.removeAt(position)
                     notifyDataSetChanged()
