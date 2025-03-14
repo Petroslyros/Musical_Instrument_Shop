@@ -41,14 +41,17 @@ class AdminUsersAdapter(val context: Context, private val users: ArrayList<User>
         val surnameTV = view.findViewById<TextView>(R.id.surnameTV)
         val addressTV = view.findViewById<TextView>(R.id.addressTV)
         val phoneTV = view.findViewById<TextView>(R.id.phoneTV)
+        val roleTV = view.findViewById<TextView>(R.id.roleTV)
         val deleteUserBtn = view.findViewById<Button>(R.id.deleteUser)
-        val makeEmployee = view.findViewById<TextView>(R.id.makeEmployee)
+        val makeEmployee = view.findViewById<Button>(R.id.makeEmployee)
+        val detailsBtn = view.findViewById<Button>(R.id.detailsBtn)
 
-        emailTV.text = "email: ${users[position].email}"
-        nameTV.text = "name: ${users[position].name}"
-        surnameTV.text = "surname: ${users[position].surname}"
-        addressTV.text = "address: ${users[position].address}"
-        phoneTV.text = "phone: ${users[position].phone}"
+        emailTV.text = "Email: ${users[position].email}"
+        nameTV.text = "Name: ${users[position].name}"
+        surnameTV.text = "Surname: ${users[position].surname}"
+        addressTV.text = "Address: ${users[position].address}"
+        phoneTV.text = "Phone: ${users[position].phone}"
+        roleTV.text = "Role : ${users[position].role.toString().lowercase()}"
 
 
         deleteUserBtn.setOnClickListener {
@@ -57,6 +60,9 @@ class AdminUsersAdapter(val context: Context, private val users: ArrayList<User>
 
         makeEmployee.setOnClickListener {
             updateUserRole(position)
+        }
+        detailsBtn.setOnClickListener {
+
         }
 
 

@@ -189,7 +189,7 @@ class UserRepository(private val database: AppDatabase) {
         }
     }
 
-    suspend fun updateUserRoletoAdmin(email: String, newRole: UserRole): Boolean {
+    suspend fun updateUserRoleToAdmin(email: String, newRole: UserRole): Boolean {
         return withContext(Dispatchers.IO) {
             val db = database.writableDatabase
             val values = ContentValues().apply {

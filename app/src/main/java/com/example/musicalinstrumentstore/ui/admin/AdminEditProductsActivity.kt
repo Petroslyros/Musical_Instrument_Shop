@@ -44,11 +44,6 @@ class AdminEditProductsActivity : AppCompatActivity() {
         binding = ActivityAdminEditProductsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         val database = AppDatabase(this)
         instrumentRepository = InstrumentsRepository(database)
@@ -60,16 +55,6 @@ class AdminEditProductsActivity : AppCompatActivity() {
         val userMail = sharedPref.getString("email", "") ?: ""
         val productsViewModel = ProductsViewModel(userRepo)
 
-        productsViewModel.getUserName(userMail)
-        productsViewModel.userName.observe(this) { result ->
-            result.onSuccess {
-                binding.titleTV.text = "Welcome admin"
-            }
-            result.onFailure {
-                Toast.makeText(this, "Something went wrong with the user name", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
 
         fetchAndPopulate()
 

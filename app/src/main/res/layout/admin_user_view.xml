@@ -49,6 +49,13 @@
             android:background="#F5F2F2"
             android:textSize="20sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/roleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F2F2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -65,13 +72,20 @@
             android:backgroundTint="#E91E63"
             android:text="Delete User" />
 
-        <TextView
-            android:textSize="20sp"
+        <Button
+            android:textSize="15sp"
             android:id="@+id/makeEmployee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFA000"
-            android:text="Change User To Employee" />
+            android:text="Make Employee" />
+        <Button
+            android:id="@+id/detailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:backgroundTint="#FFA000"
+            />
 
     </LinearLayout>
 

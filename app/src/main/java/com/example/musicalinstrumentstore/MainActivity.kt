@@ -1,7 +1,6 @@
 package com.example.musicalinstrumentstore
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         lifecycleScope.launch {
-            val success = userRepository.updateUserRoletoAdmin("admin@music.com", UserRole.ADMIN)
+            val success = userRepository.updateUserRoleToAdmin("admin@music.com", UserRole.ADMIN)
         }
     }
 }
