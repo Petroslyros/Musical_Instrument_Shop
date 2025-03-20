@@ -51,7 +51,7 @@ class CustomerInstrumentsAdapter(val context: Context, private var instruments: 
 
             //check if the instrument already exists in the cart
            val pos = instrumentExists(CustomerActivity.cart,instruments[position])
-            if(instruments[position].stock < 0){
+            if(instruments[position].stock <= 0){
                 Toast.makeText(context, "No item left in stock", Toast.LENGTH_LONG).show()
             }
             if(pos != -1){

@@ -70,23 +70,33 @@ class CheckOutActivity : AppCompatActivity() {
         }
         binding.goBackBtn.setOnClickListener {
             instrumentsList.clear()
+            cart.clear()
             checkOutAdapter.notifyDataSetChanged()
             val intent = Intent(this, CustomerActivity::class.java)
             startActivity(intent)
+            finish() //ensures current activity is removed from the back stack
         }
 
         binding.finalizePurchaseBtn.setOnClickListener {
-            val sharedPref = getSharedPreferences("cookies", Context.MODE_PRIVATE)
-            val userMail = sharedPref.getString("email", "") ?: ""
-
-            lifecycleScope.launch {
-                val user = userRepository.fetchUser(userMail)
-                if (user != null) {
-                    showFinalizePurchasePopup(user) // Show the popup only if the user is retrieved
-                } else {
-                    Toast.makeText(this@CheckOutActivity, "User not found", Toast.LENGTH_SHORT).show()
-                }
+            if(instrumentsList.isEmpty()){
+                Toast.makeText(this,"No items in order to finalize purchase",Toast.LENGTH_SHORT).show()
             }
+            else{val intent = Intent(this@CheckOutActivity, FinalizePurchaseActivity::class.java)
+                intent.putParcelableArrayListExtra("instruments", instrumentsList)
+                startActivity(intent)
+            }
+
+//            val sharedPref = getSharedPreferences("cookies", Context.MODE_PRIVATE)
+//            val userMail = sharedPref.getString("email", "") ?: ""
+//
+//            lifecycleScope.launch {
+//                val user = userRepository.fetchUser(userMail)
+//                if (user != null) {
+//                    showFinalizePurchasePopup(user)
+//                } else {
+//                    Toast.makeText(this@CheckOutActivity, "User not found", Toast.LENGTH_SHORT).show()
+//                }
+//            }
         }
 
 
@@ -115,10 +125,18 @@ class CheckOutActivity : AppCompatActivity() {
                 val success = purchasesRepository.finalizePurchase(instrumentsList, user)
                 if (success) {
                     Toast.makeText(this@CheckOutActivity, "Purchase Successful!", Toast.LENGTH_LONG).show()
+
+
+                    val purchasedItems = ArrayList(instrumentsList)
+
                     instrumentsList.clear()
+                    cart.clear()
+
                     checkOutAdapter.notifyDataSetChanged()
                     popupWindow.dismiss()
+
                     val intent = Intent(this@CheckOutActivity, FinalizePurchaseActivity::class.java)
+                    intent.putParcelableArrayListExtra("instruments", purchasedItems)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@CheckOutActivity, "Purchase Failed!", Toast.LENGTH_SHORT).show()

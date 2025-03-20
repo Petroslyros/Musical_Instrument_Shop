@@ -27,7 +27,7 @@ class PurchasesRepository(val database : AppDatabase) {
                             put("iid", instrument.instrument.id)
                             put("purDate", getCurrentDate())
                             put("quantity", instrument.quantity)
-                            put("totalCost", instrument.quantity * instrument.instrument.cost)
+                            put("total_cost", instrument.quantity * instrument.instrument.cost)
                         }
                         val id = insert("purchases", null, values)
                         if (id == -1L) {
