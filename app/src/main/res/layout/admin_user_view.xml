@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#7BA8E0"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/emailTV"
@@ -17,16 +18,20 @@
             android:layout_height="wrap_content"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/nameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/surnameTV"
@@ -34,60 +39,82 @@
             android:layout_height="wrap_content"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
+
         <TextView
             android:id="@+id/addressTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
+
         <TextView
             android:id="@+id/phoneTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
+
         <TextView
             android:id="@+id/roleTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="3"
+        android:spacing="12dp">
 
         <Button
             android:id="@+id/deleteUser"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:backgroundTint="#E91E63"
-            android:text="Delete User" />
+            android:text="Delete User"
+            android:textColor="#fff" />
 
         <Button
-            android:textSize="15sp"
             android:id="@+id/makeEmployee"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="15sp"
             android:textColor="#FFA000"
-            android:text="Make Employee" />
+            android:text="Make Employee"
+            android:background="?attr/selectableItemBackground" />
+
         <Button
             android:id="@+id/detailsBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Details"
             android:backgroundTint="#FFA000"
-            />
+            android:textColor="#fff" />
 
     </LinearLayout>
-
 
 </LinearLayout>

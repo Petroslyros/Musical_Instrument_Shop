@@ -1,88 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7BA8E0"
-    android:orientation="vertical">
-
+    android:background="#3F51B5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/titleET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/brandET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Brand"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:layout_marginStart="8dp"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/modelET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Model"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:layout_marginStart="8dp"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/titleET"
-            android:layout_width="0dp"
+            android:id="@+id/descriptionET"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/edittext_background"
+            android:hint="Description"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#F5F2F2"
-            android:hint="title"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
 
-        <EditText
-            android:id="@+id/brandET"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#F5F2F2"
-            android:textSize="20sp"
-            android:hint="brand"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/costET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Cost"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:inputType="numberDecimal" />
 
-        <EditText
-            android:id="@+id/modelET"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#F5F2F2"
-            android:textSize="20sp"
-            android:hint="model"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/stockET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_background"
+                android:hint="Stock"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:layout_marginStart="8dp"
+                android:inputType="number" />
 
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/descriptionET"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/white"
-        android:padding="8dp"
-        android:hint="description"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/costET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:hint="cost"
-        android:textStyle="bold" />
-    <EditText
-        android:id="@+id/stockET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:hint="stock"
-        android:textStyle="bold" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:orientation="horizontal">
+        </LinearLayout>
 
         <Button
             android:id="@+id/addItemBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E91E63"
-            android:text="Add to list" />
-
+            android:backgroundTint="#9C27B0"
+            android:text="Add to list"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:padding="12dp" />
 
     </LinearLayout>
 
-
-</LinearLayout>
+</ScrollView>

@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#7BA8E0"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
 
         <TextView
             android:id="@+id/titleTV"
@@ -19,7 +20,8 @@
             android:background="#F5F2F2"
             android:text="Title"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/brandTV"
@@ -28,7 +30,8 @@
             android:layout_weight="1"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/modelTV"
@@ -37,7 +40,8 @@
             android:layout_weight="1"
             android:background="#F5F2F2"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp" />
 
     </LinearLayout>
 
@@ -47,35 +51,42 @@
         android:layout_height="100dp"
         android:background="@color/white"
         android:padding="8dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginBottom="12dp" />
 
     <TextView
         android:id="@+id/costTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
     <TextView
         android:id="@+id/stockTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/addToCartBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#E91E63"
-            android:text="Add to Cart" />
+            android:text="Add to Cart"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp" />
 
     </LinearLayout>
-
 
 </LinearLayout>

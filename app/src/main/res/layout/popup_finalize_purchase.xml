@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/popup_background">
+    android:padding="24dp"
+    android:background="@drawable/popup_background"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/purchaseMessageTV"
@@ -14,7 +15,9 @@
         android:text="Are you sure you want to finalize this purchase?"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingBottom="10dp"/>
+        android:textColor="#222222"
+        android:paddingBottom="16dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/totalCostPopupTV"
@@ -23,30 +26,34 @@
         android:text="Total Cost: $0"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:paddingBottom="10dp"/>
+        android:textColor="#444444"
+        android:paddingBottom="24dp"
+        android:gravity="center"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
 
         <Button
             android:id="@+id/confirmPurchaseBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Confirm"
-            android:padding="8dp"
-            android:backgroundTint="@color/black"/>
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+        android:paddingVertical="12dp"/>
 
         <Button
             android:id="@+id/cancelPurchaseBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:padding="8dp"
-            android:backgroundTint="@color/black"
-            android:layout_marginStart="10dp"/>
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#F44336"
+        android:layout_marginStart="16dp"
+        android:paddingVertical="12dp"/>
     </LinearLayout>
 
 </LinearLayout>

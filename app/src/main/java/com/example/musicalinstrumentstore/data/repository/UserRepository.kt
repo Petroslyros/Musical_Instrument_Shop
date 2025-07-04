@@ -11,12 +11,10 @@ import kotlinx.coroutines.withContext
 class UserRepository(private val database: AppDatabase) {
 
     suspend fun registerUser(user: User): Result<User> {
-        // Dispatchers.IO  used for operations that involve network calls, ensuring they don't block the main thread
         // withContext switches execution to the specified dispatcher and runs the code inside it sequentially (not in parallel)
         // as we don't know when this function is going to get called
         return withContext(Dispatchers.IO) {
             val db = database.writableDatabase
-
             // Prepare user data for insertion into the database
             val values = ContentValues().apply {
                 put("email", user.email)
@@ -28,7 +26,7 @@ class UserRepository(private val database: AppDatabase) {
                 put("role", "CUSTOMER")
             }
 
-            // Insert the user into the users table, returns the new row ID or -1 if the insertion failed
+            // insert the user into the users table, returns the new row ID or -1 if the insertion failed
             val id = db.insert("users", null, values)
 
             if (id != -1L) {
@@ -55,7 +53,7 @@ class UserRepository(private val database: AppDatabase) {
         return withContext(Dispatchers.IO) {
             val db = database.writableDatabase
 
-            // Query the "users" table to check if the provided email and password match an existing user
+            // query the users table to check if the provided email and password match an existing user
             val cursor = db.query(
                 "users",
                 null,
@@ -65,7 +63,7 @@ class UserRepository(private val database: AppDatabase) {
             )
 
             cursor.use {
-                // Move cursor to the first result, if it exists, retrieve user data
+                // move the cursor to the first result, if it exists, retrieve user data
                 if (cursor.moveToFirst()) {
                     User(
                         id = it.getInt(it.getColumnIndexOrThrow("id")), // Throws an error if column is missing

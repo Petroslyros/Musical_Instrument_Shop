@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.AdminActivity"
+    android:orientation="vertical"
     android:background="@drawable/listbackground"
-    android:orientation="vertical">
+    android:padding="24dp"
+    tools:context=".ui.admin.AdminActivity">
 
-    <Button
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Admin Panel"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="40dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/editUsersBtn"
-        android:layout_marginTop="100dp"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Edit Users"/>
+        android:layout_marginBottom="24dp"
+        android:text="Edit Users"
+        app:cornerRadius="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        android:elevation="4dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/editProductsBtn"
-        android:layout_marginTop="100dp"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Edit Products"/>
+        android:text="Edit Products"
+        app:cornerRadius="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        android:elevation="4dp"/>
 
 </LinearLayout>

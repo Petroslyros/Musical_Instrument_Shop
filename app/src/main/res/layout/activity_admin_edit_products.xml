@@ -7,53 +7,68 @@
     android:layout_height="match_parent"
     android:background="@drawable/listbackground"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ui.customer.CustomerActivity">
 
     <TextView
         android:id="@+id/titleTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Welcome!"
         android:textAlignment="center"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Products "
-            android:textSize="30sp" />
+            android:text="Products"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:src="@drawable/baseline_add_24" />
-
-        <EditText
-            android:id="@+id/searchET"
-            android:layout_width="187dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:hint="Search instrument" />
+            android:layout_marginStart="16dp"
+            android:contentDescription="Add Product"
+            app:srcCompat="@drawable/baseline_add_24"
+            app:backgroundTint="#9C27B0"/>
 
     </LinearLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search instrument"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
         android:id="@+id/instrumentsLV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>

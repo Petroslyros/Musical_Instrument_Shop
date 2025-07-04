@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/listbackground"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ui.admin.AdminEditUsersActivity">
 
     <TextView
         android:id="@+id/titleTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Manage Users"
         android:textAlignment="center"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingBottom="12dp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Users "
-            android:textSize="30sp" />
+            android:text="Users"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/searchET"
-            android:layout_width="187dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:hint="Search user" />
-
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_background"
+            android:hint="Search user"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
-
 
     <ListView
         android:id="@+id/usersLV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#676161"
+        android:dividerHeight="1dp"
+        android:paddingTop="8dp" />
 
 </LinearLayout>
